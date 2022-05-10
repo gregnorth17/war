@@ -1,7 +1,7 @@
 let deckId
-const cardsContainer = document.getElementById("cards")
-const newDeckBtn = document.getElementById("new-deck")
-const drawCardBtn = document.getElementById("draw-cards")
+const cardsContainer = document.getElementById("cards");
+const newDeckBtn = document.getElementById("new-deck");
+const drawCardBtn = document.getElementById("draw-cards");
 let header = document.querySelector(".header");
 let remainingCards = document.querySelector(".remaining-cards");
 let displayComputerScore = document.querySelector(".display-computer-score");
@@ -9,7 +9,7 @@ let displayPlayerScore = document.querySelector(".display-player-score");
 let computerScore = 0;
 let playerScore = 0;
 
-
+drawCardBtn.disabled = true;
 
 function handleClick() {
     fetch("https://deckofcardsapi.com/api/deck/new/shuffle")
@@ -20,6 +20,7 @@ function handleClick() {
             header.textContent = "Game of War";
             header.style.color = "#fff";
             drawCardBtn.disabled = false;
+            drawCardBtn.style.color = "black";
             drawCardBtn.style.background = "yellow";
             playerScore = 0;
             computerScore = 0;
@@ -34,8 +35,6 @@ drawCardBtn.addEventListener("click", () => {
     fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`)
         .then(res => res.json())
         .then(data => {
-
-            console.log(data)
             count = data.remaining;
             if(data.remaining === 0) {
                 drawCardBtn.disabled = true;
@@ -54,14 +53,8 @@ drawCardBtn.addEventListener("click", () => {
 
             }
 
-            
-            
-
-
-
             remainingCards.textContent = `Cards remaining: ${data.remaining}`
 
-           
             const computerCard = data.cards[0];
             const playerCard = data.cards[1];
 
@@ -72,9 +65,7 @@ drawCardBtn.addEventListener("click", () => {
                 <img src=${playerCard.image} class="card" />
             `
             let winnerText = determineCardWinner(computerCard, playerCard);
-            header.textContent = winnerText;
-
-            
+            header.textContent = winnerText;   
         })
 })
 
@@ -84,7 +75,6 @@ function determineCardWinner(card1, card2) {
     "10", "JACK", "QUEEN", "KING", "ACE"]
     const card1ValueIndex = valueOptions.indexOf(card1.value)
     const card2ValueIndex = valueOptions.indexOf(card2.value)
-    
     
     if (card1ValueIndex > card2ValueIndex) {
         computerScore++;
@@ -97,7 +87,5 @@ function determineCardWinner(card1, card2) {
     } else {
         return "War!";
     }
-
-    
 }
 

@@ -35,6 +35,7 @@ button.draw {
     font-size: 1.2em;
     padding: 5px;
     align-self: stretch;
+    color: black;
 }
 
 div.card-slot {
